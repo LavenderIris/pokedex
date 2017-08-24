@@ -17,14 +17,16 @@
             genPics();
         });
 
+        // creates a way to link dynamically created cards with event handlers
         $(document).on('click', '#pics img', function() {
             var num = $(this).attr('id');
             var myUrl = 'http://pokeapi.co/api/v1/pokemon/' + num + '/';
 
+            // clears the page first
             $('#pokedex').empty();
 
+            // the actual get request from pokemon api
             $.get(myUrl, function(res) {
-                // console.log(res);
                 $('#pokedex').append('<h2 class="center">' + res.name + '</h2>');
                 $('#pokedex').append('<img class="pokePics" src="http://pokeapi.co/media/img/' + num + '.png"><h4>Types</h4>');
                 var html_str = "<ul>";
