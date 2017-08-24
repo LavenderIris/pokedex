@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function genPics() {
+                for (var i = 1; i < 152; i++) {
+                    $('#p1').append('<img id="' + i + '"src="http://pokeapi.co/media/img/' + i + '.png">')
+                }
+            }
+            genPics();
+        });
+
+        $(document).on('click', '#pics img', function() {
+            var num = $(this).attr('id');
+            var myUrl = 'http://pokeapi.co/api/v1/pokemon/' + num + '/';
+
+            $('#pokedex').empty();
+
+            $.get(myUrl, function(res) {
+                // console.log(res);
+                $('#pokedex').append('<h2 class="center">' + res.name + '</h2>');
+                $('#pokedex').append('<img class="pokePics" src="http://pokeapi.co/media/img/' + num + '.png"><h4>Types</h4>');
+                var html_str = "<ul>";
+                for (var i = 0; i < res.types.length; i++) {
+                    html_str += "<li>" + res.types[i].name + "</li>";
+                }
+                html_str += "</ul>";
+                html_str += "<h4>Abilities</h4><ul>";
+                for (var j = 0; j < res.abilities.length; j++) {
+
+                    html_str += "<li>" + res.abilities[j].name + "</li>";
+                }
+                html_str += "</ul>";
+                html_str += "<p><h4 class='inline'> Attack </h4>: " + res.attack + '</p>';
+                html_str += "<p><h4 class='inline'>Defense</h4>: " + res.defense + '<p>';
+                html_str += "<h4 class='inline'>HP</h4>: " + res.hp;
+
+                $("#pokedex").append(html_str);
+
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="pics">
+            <p id="pad">Pokemon, can you ENSLAVE them ALL?<br></p>
+            <div id="p1">
+            </div>
+        </div>
+
+        <div id="pokedex">
+        </div>
+    </div>
+
+
+</body>
+
+</html>
